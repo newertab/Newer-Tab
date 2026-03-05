@@ -5,10 +5,9 @@
 <title>New Tab</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- Google AdSense -->
 <script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7762107676364310"
-  crossorigin="anonymous"></script>
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7762107676364310"
+crossorigin="anonymous"></script>
 
 <style>
 :root {
@@ -21,296 +20,208 @@
   --accent: #38bdf8;
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box;}
 
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow: hidden;
+body{
+margin:0;
+font-family:system-ui,sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow:hidden;
 }
 
-.popup-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 5000;
+/* ================= CLOSED SCREEN ================= */
+
+.closed-screen{
+position:fixed;
+inset:0;
+z-index:99999;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+background:#020617;
+overflow:hidden;
+text-align:center;
 }
 
-.popup {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px 26px;
-  max-width: 420px;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,.6);
-  animation: pop .25s ease;
+/* animated dots */
+
+.closed-screen::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background-image:radial-gradient(#38bdf8 1px, transparent 1px);
+background-size:40px 40px;
+opacity:.2;
+animation:moveDots 40s linear infinite;
 }
 
-.popup h2 {
-  margin: 0 0 10px;
-  font-size: 20px;
+@keyframes moveDots{
+from{transform:translate(0,0);}
+to{transform:translate(-200px,-200px);}
 }
 
-.popup p {
-  margin: 0 0 18px;
-  color: var(--muted);
-  line-height: 1.5;
+.closed-content{
+position:relative;
+z-index:2;
+max-width:700px;
+padding:40px;
 }
 
-.popup button {
-  padding: 10px 22px;
-  border-radius: 10px;
-  border: none;
-  background: var(--accent);
-  color: #000;
-  font-weight: 700;
-  cursor: pointer;
+.closed-title{
+font-size:56px;
+font-weight:900;
+margin-bottom:20px;
 }
 
-@keyframes pop {
-  from { transform: scale(.92); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.closed-box{
+background:#020617;
+border:1px solid #1f2937;
+border-radius:14px;
+padding:22px;
+margin-bottom:30px;
+color:#9ca3af;
+line-height:1.6;
+box-shadow:0 20px 50px rgba(0,0,0,.6);
 }
 
-nav {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 18px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  z-index: 1000;
+.closed-link{
+display:inline-block;
+font-size:26px;
+font-weight:800;
+color:#38bdf8;
+text-decoration:none;
+padding:14px 28px;
+border-radius:12px;
+background:rgba(56,189,248,.1);
+border:1px solid #38bdf8;
+transition:.2s;
 }
 
-.title {
-  font-weight: 800;
-  font-size: 20px;
-  position: relative;
-  padding-bottom: 4px;
+.closed-link:hover{
+background:#38bdf8;
+color:#000;
 }
 
-.title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 2px;
+/* ================= Site ================= */
+
+nav{
+position:fixed;
+inset:0 0 auto 0;
+height:var(--nav-height);
+display:flex;
+align-items:center;
+gap:14px;
+padding:0 18px;
+background:var(--bg);
+border-bottom:1px solid var(--border);
+z-index:1000;
 }
 
-.tabs {
-  display: flex;
-  gap: 6px;
-  flex: 1;
-  align-items: center;
+.title{
+font-weight:800;
+font-size:20px;
 }
 
-.tab {
-  position: relative;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  gap: 6px;
-  align-items: center;
+.tabs{
+display:flex;
+gap:6px;
+flex:1;
+align-items:center;
 }
 
-.tab:hover {
-  background: var(--bg-2);
+.tab{
+padding:6px 12px;
+border-radius:8px;
+cursor:pointer;
+display:flex;
+gap:6px;
+align-items:center;
 }
 
-.tab.active {
-  background: rgba(56,189,248,.12);
-  box-shadow: inset 0 0 0 1px var(--accent);
-  font-weight: 600;
+.tab:hover{
+background:var(--bg-2);
 }
 
-.star {
-  cursor: pointer;
-  opacity: .5;
+.tab.active{
+background:rgba(56,189,248,.12);
+box-shadow:inset 0 0 0 1px var(--accent);
+font-weight:600;
 }
 
-.star.pinned {
-  color: gold;
-  opacity: 1;
-}
-
-.more {
-  position: relative;
-}
-
-.more-btn {
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.more-btn:hover {
-  background: var(--bg-2);
-}
-
-.more-menu {
-  position: absolute;
-  top: 110%;
-  right: 0;
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 6px;
-  min-width: 220px;
-  display: none;
-}
-
-.more.open .more-menu {
-  display: block;
-}
-
-.fullscreen-btn {
-  padding: 6px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-}
-
-.fullscreen-btn:hover {
-  background: var(--bg-2);
-}
-
-#viewer {
-  position: fixed;
-  top: var(--nav-height);
-  left: 0;
-  width: 100%;
-  height: calc(100% - var(--nav-height));
-  border: none;
-  background: black;
+#viewer{
+position:fixed;
+top:var(--nav-height);
+left:0;
+width:100%;
+height:calc(100% - var(--nav-height));
+border:none;
+background:black;
 }
 </style>
 </head>
 
 <body>
 
-<div class="popup-backdrop" id="popup">
-  <div class="popup">
-    <h2>Important</h2>
-    <p>
-      Once this site is blocked, the URL will be changed to<br>
-      <strong>https://newesttab.github.io/New-Tab/</strong>
-    </p>
-    <button id="popupOk">Okay</button>
+<!-- ================= CLOSED SCREEN ================= -->
+
+<div class="closed-screen">
+
+  <div class="closed-content">
+
+    <div class="closed-title">Site Closed</div>
+
+    <div class="closed-box">
+      Securely unblocked the other site so this one is closed and will stay
+      closed unless they block the other site again.<br><br>
+
+      So keep this one bookmarked, I don't wanna update two sites
+      because I'm lazy so this one is closed.
+    </div>
+
+    <a class="closed-link"
+       href="https://sites.google.com/view/totally-not-unblocked-games69"
+       target="_blank">
+       sites.google.com/view/totally-not-unblocked-games69
+    </a>
+
   </div>
+
 </div>
 
+<!-- ================= Site ================= -->
+
 <nav>
-  <div class="title">New Tab 2</div>
-  <div class="tabs" id="tabs"></div>
-
-  <div class="fullscreen-btn" id="fsBtn">⛶</div>
-
-  <div class="more" id="moreWrap">
-    <div class="more-btn" id="moreBtn"></div>
-    <div class="more-menu" id="moreMenu"></div>
-  </div>
+<div class="title">New Tab 2</div>
+<div class="tabs" id="tabs"></div>
 </nav>
 
-<iframe id="viewer" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe id="viewer"></iframe>
 
-<!-- 🔹 External games list -->
 <script src="games.js"></script>
 
 <script>
-/* ===== POPUP ===== */
-const popup = document.getElementById("popup");
-const popupOk = document.getElementById("popupOk");
-
-if (localStorage.getItem("popupSeen")) {
-  popup.remove();
-} else {
-  popupOk.onclick = () => {
-    localStorage.setItem("popupSeen", "1");
-    popup.remove();
-  };
-}
-
-/* ===== SITE LOGIC ===== */
-const MAX_VISIBLE = 10;
 const tabs = document.getElementById("tabs");
-const moreMenu = document.getElementById("moreMenu");
-const moreBtn = document.getElementById("moreBtn");
 const iframe = document.getElementById("viewer");
-const fsBtn = document.getElementById("fsBtn");
 
-const favorites = new Set(JSON.parse(localStorage.getItem("favorites") || "[]"));
-
-function save() {
-  localStorage.setItem("favorites", JSON.stringify([...favorites]));
+function loadGame(name,url){
+iframe.src=url;
 }
 
-function loadGame(name, url) {
-  iframe.src = url;
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelector(`[data-game="${name}"]`)?.classList.add("active");
+function build(){
+tabs.innerHTML="";
+Object.entries(PAGES).forEach(([name,url])=>{
+const tab=document.createElement("div");
+tab.className="tab";
+tab.textContent=name;
+tab.onclick=()=>loadGame(name,url);
+tabs.appendChild(tab);
+});
 }
-
-function build() {
-  tabs.innerHTML = "";
-  moreMenu.innerHTML = "";
-
-  const sorted = Object.entries(PAGES).sort(([a],[b]) =>
-    (favorites.has(b) - favorites.has(a)) || a.localeCompare(b)
-  );
-
-  sorted.forEach(([name, url], i) => {
-    const tab = document.createElement("div");
-    tab.className = "tab";
-    tab.dataset.game = name;
-    tab.textContent = name;
-
-    const star = document.createElement("span");
-    star.textContent = "★";
-    star.className = "star" + (favorites.has(name) ? " pinned" : "");
-    star.onclick = e => {
-      e.stopPropagation();
-      favorites.has(name) ? favorites.delete(name) : favorites.add(name);
-      save();
-      build();
-    };
-
-    tab.appendChild(star);
-    tab.onclick = () => loadGame(name, url);
-
-    (i < MAX_VISIBLE ? tabs : moreMenu).appendChild(tab);
-  });
-
-  const overflow = Math.max(0, sorted.length - MAX_VISIBLE);
-  moreBtn.textContent = overflow ? `+${overflow} more` : "";
-}
-
-fsBtn.onclick = () => {
-  document.fullscreenElement
-    ? document.exitFullscreen()
-    : iframe.requestFullscreen();
-};
-
-document.getElementById("moreWrap").onclick = e => {
-  e.currentTarget.classList.toggle("open");
-};
 
 build();
-loadGame(Object.keys(PAGES)[0], Object.values(PAGES)[0]);
 </script>
 
 </body>
