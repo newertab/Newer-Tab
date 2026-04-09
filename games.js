@@ -18,8 +18,6 @@ window.PAGES = {
   
   "Eggy Car": "https://newertab.github.io/EggyCar/",
   
-  "Color Tunnel 2": "https://newertab.github.io/ColorTunnel2/",
-
   "Retro Bowl": "https://newertab.github.io/rb/",
 
   "Five Nights at Epstiens": "https://newertab.github.io/FNAE-4-1-26/",
