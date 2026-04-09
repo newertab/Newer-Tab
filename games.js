@@ -5,14 +5,14 @@ window.PAGES = {
   "Drive Mad": "https://newertab.github.io/drive-mad/drive-mad-new/",
   
   "Snow Rider": "https://jigar1234nob.github.io/snowrider3d/",
-
-  "Smash Karts": "https://educational-moyv.github.io/smash-karts/",
   
   "Basket Bros": "https://hacker-114.github.io/basket-bros/",
+
+  "Moto X3M 2": "https://newertab.github.io/Moto-X3M-2/",
   
   "Rocket League 3D": "https://newertab.github.io/SmashKarts/",
 
-  "Geometry Dash": "https://gamehippy.github.io/geometry-dash-unblocked/",
+  "Geometry Dash": "https://threekho.github.io/gdl/",
   
   "Basket Random": "https://unblocked-games-786.github.io/Basket-Random/",
   
@@ -21,6 +21,8 @@ window.PAGES = {
   "Color Tunnel 2": "https://newertab.github.io/ColorTunnel2/",
 
   "Retro Bowl": "https://newertab.github.io/rb/",
+
+  "Five Nights at Epstien's": "https://newertab.github.io/FNAE-4-1-26/",
   
   "Slots": "https://newertab.github.io/Slot-Machine/" // Last
 };
