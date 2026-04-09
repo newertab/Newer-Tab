@@ -1,142 +1,287 @@
-<script>
-const tabs = document.getElementById("tabs");
-const iframe = document.getElementById("viewer");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>New Tab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-const ALLOWED_URL = "https://forms.gle/ctrT82F5z1aQ7Dcs7";
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7762107676364310"
+crossorigin="anonymous"></script>
 
-/* ================= GAME LOADING ================= */
-
-function loadGame(name,url){
-  iframe.src = url;
+<style>
+:root {
+  --nav-height: 56px;
+  --bg: #0f172a;
+  --bg-2: #111827;
+  --border: #1f2937;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #38bdf8;
 }
 
-function build(){
-  tabs.innerHTML="";
-  Object.entries(PAGES).forEach(([name,url])=>{
-    const tab=document.createElement("div");
-    tab.className="tab";
-    tab.textContent=name;
-    tab.onclick=()=>loadGame(name,url);
-    tabs.appendChild(tab);
-  });
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+font-family:system-ui,sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow:hidden;
 }
 
-build();
+/* ================= NAV ================= */
 
-/* ================= LOCKDOWN ================= */
-
-function isAllowed(url){
-  return url.startsWith(ALLOWED_URL);
+nav{
+position:fixed;
+inset:0 0 auto 0;
+height:var(--nav-height);
+display:flex;
+align-items:center;
+gap:14px;
+padding:0 18px;
+background:var(--bg);
+border-bottom:1px solid var(--border);
+z-index:1000;
 }
 
-function blockAllNavigation(){
+.title{
+font-weight:800;
+font-size:20px;
+}
 
-  // Block window.open except allowed
-  const originalOpen = window.open;
-  window.open = function(url, ...args){
-    if(url && isAllowed(url)){
-      return originalOpen.call(window, url, ...args);
-    }
-    console.warn("Blocked popup:", url);
-    return null;
-  };
+.tabs{
+display:flex;
+gap:6px;
+flex:1;
+align-items:center;
+}
 
-  // Block location changes
-  const blockLocationChange = function(){
-    console.warn("Blocked redirect attempt");
-  };
+.tab{
+padding:6px 12px;
+border-radius:8px;
+cursor:pointer;
+display:flex;
+gap:6px;
+align-items:center;
+}
 
-  try{
-    Object.defineProperty(window, "location", {
-      value: window.location,
-      writable: false
-    });
-  }catch(e){}
+.tab:hover{
+background:var(--bg-2);
+}
 
-  // Block link clicks
-  document.addEventListener("click", function(e){
-    const link = e.target.closest("a");
-    if(link){
-      if(!isAllowed(link.href)){
-        e.preventDefault();
-        console.warn("Blocked link:", link.href);
-      }
-    }
-  });
+.tab.active{
+background:rgba(56,189,248,.12);
+box-shadow:inset 0 0 0 1px var(--accent);
+font-weight:600;
+}
 
-  // EXTRA: stop JS redirects like location.href=
-  window.addEventListener("beforeunload", function(e){
-    e.preventDefault();
-    e.returnValue = "";
-  });
-
-  // STRICT iframe sandbox (THIS is the main fix)
-  iframe.setAttribute(
-    "sandbox",
-    "allow-scripts allow-same-origin"
-  );
-
-  // Prevent iframe from navigating top (extra safety)
-  iframe.onload = () => {
-    try {
-      const win = iframe.contentWindow;
-
-      // kill popup attempts inside iframe
-      win.open = () => null;
-
-      // block redirects inside iframe
-      Object.defineProperty(win, "location", {
-        value: win.location,
-        writable: false
-      });
-
-    } catch(e){
-      // cross-origin, sandbox still protects us
-    }
-  };
+#viewer{
+position:fixed;
+top:var(--nav-height);
+left:0;
+width:100%;
+height:calc(100% - var(--nav-height));
+border:none;
+background:black;
 }
 
 /* ================= POPUP ================= */
 
-const popup = document.getElementById("popup");
-const enableBtn = document.getElementById("enableEmail");
-const skipBtn = document.getElementById("skipBtn");
-
-if(!localStorage.getItem("popupSeen")){
-  popup.classList.remove("hidden");
-
-  let timeLeft = 15;
-
-  const timer = setInterval(()=>{
-    timeLeft--;
-    skipBtn.textContent = `Skip (${timeLeft})`;
-
-    if(timeLeft <= 0){
-      clearInterval(timer);
-      skipBtn.disabled = false;
-      skipBtn.textContent = "Skip";
-      skipBtn.style.cursor = "pointer";
-      skipBtn.style.color = "white";
-    }
-  },1000);
-
-}else{
-  blockAllNavigation();
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.65);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2000;
+animation:fadeIn .3s ease;
 }
 
-// Allow ONLY this link
-enableBtn.onclick = ()=>{
-  window.open(ALLOWED_URL, "_blank");
-  localStorage.setItem("popupSeen", "true");
-  popup.classList.add("hidden");
+.popup-box{
+background:var(--bg-2);
+border:1px solid var(--border);
+border-radius:16px;
+padding:28px;
+width:360px;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.6);
+animation:popIn .35s ease;
+}
 
-  blockAllNavigation();
+.popup-title{
+font-size:20px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.popup-text{
+color:var(--muted);
+font-size:14px;
+margin-bottom:20px;
+line-height:1.4;
+}
+
+.popup-buttons{
+display:flex;
+gap:10px;
+justify-content:center;
+}
+
+.btn{
+padding:10px 16px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+background:var(--bg);
+color:var(--text);
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-1px);
+}
+
+.btn.primary{
+background:var(--accent);
+color:#000;
+font-weight:600;
+}
+
+.btn:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.copied-msg{
+margin-top:12px;
+font-size:13px;
+color:var(--accent);
+opacity:0;
+transition:.3s;
+}
+
+/* animations */
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+@keyframes popIn{
+from{transform:scale(.9);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= POPUP ================= -->
+<div id="popup" class="popup">
+  <div class="popup-box">
+
+    <div class="popup-title">Enable Email Notifications</div>
+
+    <div class="popup-text">
+      Enable email notifications so if this site gets blocked,
+      you'll receive the new URL automatically.
+    </div>
+
+    <div class="popup-buttons">
+      <button id="enableBtn" class="btn primary">
+        Enable Notifications
+      </button>
+
+      <button id="skipBtn" class="btn" disabled>
+        Skip (20)
+      </button>
+    </div>
+
+    <div id="copiedMsg" class="copied-msg"></div>
+
+  </div>
+</div>
+
+<!-- ================= NAV ================= -->
+<nav>
+<div class="title">New Tab 2</div>
+<div class="tabs" id="tabs"></div>
+</nav>
+
+<iframe id="viewer"></iframe>
+
+<script src="games.js"></script>
+
+<script>
+const tabs = document.getElementById("tabs");
+const iframe = document.getElementById("viewer");
+
+function loadGame(name,url){
+iframe.src=url;
+}
+
+function build(){
+tabs.innerHTML="";
+Object.entries(PAGES).forEach(([name,url])=>{
+const tab=document.createElement("div");
+tab.className="tab";
+tab.textContent=name;
+tab.onclick=()=>loadGame(name,url);
+tabs.appendChild(tab);
+});
+}
+
+build();
+
+/* ================= POPUP LOGIC ================= */
+
+const popup = document.getElementById("popup");
+const enableBtn = document.getElementById("enableBtn");
+const skipBtn = document.getElementById("skipBtn");
+const copiedMsg = document.getElementById("copiedMsg");
+
+const FORM_LINK = "https://forms.gle/TUeMfjBxiSW6xQru9";
+
+/* COPY BUTTON */
+enableBtn.onclick = async () => {
+  try {
+    await navigator.clipboard.writeText(FORM_LINK);
+
+    copiedMsg.textContent = "Copied to clipboard!";
+    copiedMsg.style.opacity = "1";
+
+    setTimeout(() => {
+      copiedMsg.style.opacity = "0";
+    }, 2500);
+
+  } catch (err) {
+    copiedMsg.textContent = "Copy failed. Please copy manually.";
+    copiedMsg.style.opacity = "1";
+  }
 };
 
-skipBtn.onclick = ()=>{
-  popup.classList.add("hidden");
-  localStorage.setItem("popupSeen", "true");
+/* COUNTDOWN */
+let time = 20;
+skipBtn.textContent = `Skip (${time})`;
 
-  blockAllNavigation();
+const timer = setInterval(() => {
+  time--;
+
+  if (time > 0) {
+    skipBtn.textContent = `Skip (${time})`;
+  } else {
+    clearInterval(timer);
+    skipBtn.textContent = "Skip";
+    skipBtn.disabled = false;
+  }
+}, 1000);
+
+/* CLOSE POPUP */
+skipBtn.onclick = () => {
+  popup.style.display = "none";
 };
 </script>
+
+</body>
+</html>
