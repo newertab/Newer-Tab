@@ -1,13 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>New Tab</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7762107676364310"
-crossorigin="anonymous"></script>
 
 <style>
 :root {
@@ -30,79 +27,62 @@ color:var(--text);
 overflow:hidden;
 }
 
-/* ================= CLOSED SCREEN ================= */
+/* ================= POPUP ================= */
 
-.closed-screen{
+.popup{
 position:fixed;
 inset:0;
-z-index:99999;
 display:flex;
 align-items:center;
 justify-content:center;
-flex-direction:column;
-background:#020617;
-overflow:hidden;
-text-align:center;
+background:rgba(0,0,0,.6);
+z-index:9999;
 }
 
-/* animated dots */
-
-.closed-screen::before{
-content:"";
-position:absolute;
-width:200%;
-height:200%;
-background-image:radial-gradient(#38bdf8 1px, transparent 1px);
-background-size:40px 40px;
-opacity:.2;
-animation:moveDots 40s linear infinite;
+.hidden{
+display:none;
 }
 
-@keyframes moveDots{
-from{transform:translate(0,0);}
-to{transform:translate(-200px,-200px);}
-}
-
-.closed-content{
-position:relative;
-z-index:2;
-max-width:700px;
-padding:40px;
-}
-
-.closed-title{
-font-size:56px;
-font-weight:900;
-margin-bottom:20px;
-}
-
-.closed-box{
+.popup-card{
 background:#020617;
 border:1px solid #1f2937;
-border-radius:14px;
-padding:22px;
-margin-bottom:30px;
+padding:30px;
+border-radius:16px;
+width:340px;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.popup-card h2{
+margin-bottom:10px;
+}
+
+.popup-card p{
 color:#9ca3af;
-line-height:1.6;
-box-shadow:0 20px 50px rgba(0,0,0,.6);
+font-size:14px;
+margin-bottom:20px;
+line-height:1.5;
 }
 
-.closed-link{
-display:inline-block;
-font-size:26px;
-font-weight:800;
-color:#38bdf8;
-text-decoration:none;
-padding:14px 28px;
-border-radius:12px;
-background:rgba(56,189,248,.1);
-border:1px solid #38bdf8;
-transition:.2s;
+.popup-card button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+margin-top:8px;
+cursor:pointer;
+font-weight:600;
 }
 
-.closed-link:hover{
+#enableEmail{
 background:#38bdf8;
-color:#000;
+color:black;
+}
+
+#skipBtn{
+background:#1f2937;
+color:#9ca3af;
+cursor:not-allowed;
 }
 
 /* ================= Site ================= */
@@ -165,30 +145,27 @@ background:black;
 
 <body>
 
-<!-- ================= CLOSED SCREEN ================= -->
+<!-- ================= POPUP ================= -->
 
-<div class="closed-screen">
+<div id="popup" class="popup hidden">
+  <div class="popup-card">
 
-  <div class="closed-content">
+    <h2>Stay Updated</h2>
 
-    <div class="closed-title">Site Closed</div>
+    <p>
+      Enable email notifications so if this site gets blocked,
+      you’ll receive the new link EVENTUALLY (because im lazy).
+    </p>
 
-    <div class="closed-box">
-      Securely unblocked the other site so this one is closed and will stay
-      closed unless they block the other site again.<br><br>
+    <button id="enableEmail">
+      Enable Email Notifications
+    </button>
 
-      So keep this one bookmarked, I don't wanna update two sites
-      because I'm lazy so this one is closed.
-    </div>
-
-    <a class="closed-link"
-       href="https://sites.google.com/view/totally-not-unblocked-games69"
-       target="_blank">
-       sites.google.com/view/totally-not-unblocked-games69
-    </a>
+    <button id="skipBtn" disabled>
+      Skip (15)
+    </button>
 
   </div>
-
 </div>
 
 <!-- ================= Site ================= -->
@@ -207,22 +184,62 @@ const tabs = document.getElementById("tabs");
 const iframe = document.getElementById("viewer");
 
 function loadGame(name,url){
-iframe.src=url;
+  iframe.src=url;
 }
 
 function build(){
-tabs.innerHTML="";
-Object.entries(PAGES).forEach(([name,url])=>{
-const tab=document.createElement("div");
-tab.className="tab";
-tab.textContent=name;
-tab.onclick=()=>loadGame(name,url);
-tabs.appendChild(tab);
-});
+  tabs.innerHTML="";
+  Object.entries(PAGES).forEach(([name,url])=>{
+    const tab=document.createElement("div");
+    tab.className="tab";
+    tab.textContent=name;
+    tab.onclick=()=>loadGame(name,url);
+    tabs.appendChild(tab);
+  });
 }
 
 build();
+
+/* ================= POPUP LOGIC ================= */
+
+const popup = document.getElementById("popup");
+const enableBtn = document.getElementById("enableEmail");
+const skipBtn = document.getElementById("skipBtn");
+
+// Show ONLY first time
+if(!localStorage.getItem("popupSeen")){
+  popup.classList.remove("hidden");
+
+  let timeLeft = 15;
+
+  const timer = setInterval(()=>{
+    timeLeft--;
+    skipBtn.textContent = `Skip (${timeLeft})`;
+
+    if(timeLeft <= 0){
+      clearInterval(timer);
+      skipBtn.disabled = false;
+      skipBtn.textContent = "Skip";
+      skipBtn.style.cursor = "pointer";
+      skipBtn.style.color = "white";
+    }
+  },1000);
+}
+
+// Open Google Form
+enableBtn.onclick = ()=>{
+  window.open("https://forms.gle/ctrT82F5z1aQ7Dcs7", "_blank");
+  localStorage.setItem("popupSeen", "true");
+  popup.classList.add("hidden");
+};
+
+// Skip
+skipBtn.onclick = ()=>{
+  popup.classList.add("hidden");
+  localStorage.setItem("popupSeen", "true");
+};
 </script>
 
 </body>
 </html>
+```
