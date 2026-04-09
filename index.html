@@ -1,186 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>New Tab</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<style>
-:root {
-  --nav-height: 56px;
-  --bg: #0f172a;
-  --bg-2: #111827;
-  --border: #1f2937;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-  --accent: #38bdf8;
-}
-
-*{box-sizing:border-box;}
-
-body{
-margin:0;
-font-family:system-ui,sans-serif;
-background:var(--bg);
-color:var(--text);
-overflow:hidden;
-}
-
-/* ================= POPUP ================= */
-
-.popup{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(0,0,0,.6);
-z-index:9999;
-}
-
-.hidden{
-display:none;
-}
-
-.popup-card{
-background:#020617;
-border:1px solid #1f2937;
-padding:30px;
-border-radius:16px;
-width:340px;
-text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-
-.popup-card h2{
-margin-bottom:10px;
-}
-
-.popup-card p{
-color:#9ca3af;
-font-size:14px;
-margin-bottom:20px;
-line-height:1.5;
-}
-
-.popup-card button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:10px;
-margin-top:8px;
-cursor:pointer;
-font-weight:600;
-}
-
-#enableEmail{
-background:#38bdf8;
-color:black;
-}
-
-#skipBtn{
-background:#1f2937;
-color:#9ca3af;
-cursor:not-allowed;
-}
-
-/* ================= Site ================= */
-
-nav{
-position:fixed;
-inset:0 0 auto 0;
-height:var(--nav-height);
-display:flex;
-align-items:center;
-gap:14px;
-padding:0 18px;
-background:var(--bg);
-border-bottom:1px solid var(--border);
-z-index:1000;
-}
-
-.title{
-font-weight:800;
-font-size:20px;
-}
-
-.tabs{
-display:flex;
-gap:6px;
-flex:1;
-align-items:center;
-}
-
-.tab{
-padding:6px 12px;
-border-radius:8px;
-cursor:pointer;
-display:flex;
-gap:6px;
-align-items:center;
-}
-
-.tab:hover{
-background:var(--bg-2);
-}
-
-.tab.active{
-background:rgba(56,189,248,.12);
-box-shadow:inset 0 0 0 1px var(--accent);
-font-weight:600;
-}
-
-#viewer{
-position:fixed;
-top:var(--nav-height);
-left:0;
-width:100%;
-height:calc(100% - var(--nav-height));
-border:none;
-background:black;
-}
-</style>
-</head>
-
-<body>
-
-<!-- ================= POPUP ================= -->
-
-<div id="popup" class="popup hidden">
-  <div class="popup-card">
-
-    <h2>Stay Updated</h2>
-
-    <p>
-      Enable email notifications so if this site gets blocked,
-      you’ll receive the new link EVENTUALLY (because im lazy).
-    </p>
-
-    <button id="enableEmail">
-      Enable Email Notifications
-    </button>
-
-    <button id="skipBtn" disabled>
-      Skip (15)
-    </button>
-
-  </div>
-</div>
-
-<!-- ================= Site ================= -->
-
-<nav>
-<div class="title">New Tab 2</div>
-<div class="tabs" id="tabs"></div>
-</nav>
-
-<iframe id="viewer"></iframe>
-
-<script src="games.js"></script>
-
 <script>
 const tabs = document.getElementById("tabs");
 const iframe = document.getElementById("viewer");
+
+const ALLOWED_URL = "https://forms.gle/ctrT82F5z1aQ7Dcs7";
+
+/* ================= GAME LOADING ================= */
 
 function loadGame(name,url){
   iframe.src = url;
@@ -199,39 +23,85 @@ function build(){
 
 build();
 
-/* ================= LOCKDOWN FUNCTION ================= */
+/* ================= LOCKDOWN ================= */
 
-function disablePopupsAndRedirects(){
+function isAllowed(url){
+  return url.startsWith(ALLOWED_URL);
+}
 
-  // Block window.open
-  window.open = function(){
-    console.warn("Popup blocked");
+function blockAllNavigation(){
+
+  // Block window.open except allowed
+  const originalOpen = window.open;
+  window.open = function(url, ...args){
+    if(url && isAllowed(url)){
+      return originalOpen.call(window, url, ...args);
+    }
+    console.warn("Blocked popup:", url);
     return null;
   };
 
-  // Block target="_blank" links
+  // Block location changes
+  const blockLocationChange = function(){
+    console.warn("Blocked redirect attempt");
+  };
+
+  try{
+    Object.defineProperty(window, "location", {
+      value: window.location,
+      writable: false
+    });
+  }catch(e){}
+
+  // Block link clicks
   document.addEventListener("click", function(e){
     const link = e.target.closest("a");
-    if(link && link.target === "_blank"){
-      e.preventDefault();
-      console.warn("Blocked new tab link");
+    if(link){
+      if(!isAllowed(link.href)){
+        e.preventDefault();
+        console.warn("Blocked link:", link.href);
+      }
     }
   });
 
-  // Sandbox iframe (VERY IMPORTANT)
+  // EXTRA: stop JS redirects like location.href=
+  window.addEventListener("beforeunload", function(e){
+    e.preventDefault();
+    e.returnValue = "";
+  });
+
+  // STRICT iframe sandbox (THIS is the main fix)
   iframe.setAttribute(
     "sandbox",
     "allow-scripts allow-same-origin"
   );
+
+  // Prevent iframe from navigating top (extra safety)
+  iframe.onload = () => {
+    try {
+      const win = iframe.contentWindow;
+
+      // kill popup attempts inside iframe
+      win.open = () => null;
+
+      // block redirects inside iframe
+      Object.defineProperty(win, "location", {
+        value: win.location,
+        writable: false
+      });
+
+    } catch(e){
+      // cross-origin, sandbox still protects us
+    }
+  };
 }
 
-/* ================= POPUP LOGIC ================= */
+/* ================= POPUP ================= */
 
 const popup = document.getElementById("popup");
 const enableBtn = document.getElementById("enableEmail");
 const skipBtn = document.getElementById("skipBtn");
 
-// Show ONLY first time
 if(!localStorage.getItem("popupSeen")){
   popup.classList.remove("hidden");
 
@@ -251,26 +121,22 @@ if(!localStorage.getItem("popupSeen")){
   },1000);
 
 }else{
-  disablePopupsAndRedirects(); // already seen → lock immediately
+  blockAllNavigation();
 }
 
-// Enable Email
+// Allow ONLY this link
 enableBtn.onclick = ()=>{
-  window.open("https://forms.gle/ctrT82F5z1aQ7Dcs7", "_blank");
+  window.open(ALLOWED_URL, "_blank");
   localStorage.setItem("popupSeen", "true");
   popup.classList.add("hidden");
 
-  disablePopupsAndRedirects();
+  blockAllNavigation();
 };
 
-// Skip
 skipBtn.onclick = ()=>{
   popup.classList.add("hidden");
   localStorage.setItem("popupSeen", "true");
 
-  disablePopupsAndRedirects();
+  blockAllNavigation();
 };
 </script>
-
-</body>
-</html>
