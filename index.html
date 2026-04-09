@@ -20,132 +20,131 @@ crossorigin="anonymous"></script>
   --accent: #38bdf8;
 }
 
-*{box-sizing:border-box;}
+* { box-sizing: border-box; }
 
-body{
-margin:0;
-font-family:system-ui,sans-serif;
-background:var(--bg);
-color:var(--text);
-overflow:hidden;
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
 }
 
 /* NAV */
-nav{
-position:fixed;
-inset:0 0 auto 0;
-height:var(--nav-height);
-display:flex;
-align-items:center;
-gap:14px;
-padding:0 18px;
-background:var(--bg);
-border-bottom:1px solid var(--border);
-z-index:1000;
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
 }
 
-.title{font-weight:800;font-size:20px;}
+.title { font-weight: 800; font-size: 20px; }
 
-.tabs{
-display:flex;
-gap:6px;
-flex:1;
-align-items:center;
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  align-items: center;
 }
 
-.tab{
-padding:6px 12px;
-border-radius:8px;
-cursor:pointer;
+.tab {
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.tab:hover{background:var(--bg-2);}
+.tab:hover { background: var(--bg-2); }
 
-#viewer{
-position:fixed;
-top:var(--nav-height);
-left:0;
-width:100%;
-height:calc(100% - var(--nav-height));
-border:none;
-background:black;
+#viewer {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--nav-height));
+  border: none;
+  background: black;
 }
 
 /* POPUP */
-.popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.7);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:2000;
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
 }
 
-.popup-box{
-background:var(--bg-2);
-border:1px solid var(--border);
-border-radius:16px;
-padding:28px;
-width:380px;
-text-align:center;
+.popup-box {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 380px;
+  text-align: center;
 }
 
-.popup-title{
-font-size:20px;
-font-weight:800;
-margin-bottom:10px;
+.popup-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 10px;
 }
 
-.popup-text{
-color:var(--muted);
-font-size:14px;
-margin-bottom:14px;
+.popup-text {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 14px;
 }
 
-/* BIG URL DISPLAY */
-.url-box{
-margin:12px 0 18px;
-padding:10px;
-border-radius:10px;
-background:#0b1220;
-border:1px solid var(--border);
-word-break:break-all;
-font-size:13px;
-color:#93c5fd;
+.url-box {
+  margin: 12px 0 18px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #0b1220;
+  border: 1px solid var(--border);
+  word-break: break-all;
+  font-size: 13px;
+  color: #93c5fd;
 }
 
-.popup-buttons{
-display:flex;
-gap:10px;
-justify-content:center;
+.popup-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
-.btn{
-padding:10px 14px;
-border-radius:10px;
-border:none;
-cursor:pointer;
-background:var(--bg);
-color:var(--text);
+.btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.btn.primary{
-background:var(--accent);
-color:#000;
-font-weight:700;
+.btn.primary {
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
 }
 
-.btn:disabled{
-opacity:.5;
-cursor:not-allowed;
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
 
-.copied{
-margin-top:10px;
-font-size:13px;
-color:#38bdf8;
-min-height:18px;
+.copied {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--accent);
+  min-height: 18px;
 }
 </style>
 </head>
@@ -162,19 +161,13 @@ min-height:18px;
       If this site gets blocked, you'll get the new URL automatically.
     </div>
 
-    <!-- BIG MANUAL URL DISPLAY -->
     <div class="url-box">
       https://forms.gle/TUeMfjBxiSW6xQru9
     </div>
 
     <div class="popup-buttons">
-      <button id="enableBtn" class="btn primary">
-        Copy Link
-      </button>
-
-      <button id="skipBtn" class="btn" disabled>
-        Skip (20)
-      </button>
+      <button id="enableBtn" class="btn primary">Copy Link</button>
+      <button id="skipBtn" class="btn" disabled>Skip (20)</button>
     </div>
 
     <div id="copiedMsg" class="copied"></div>
@@ -184,8 +177,8 @@ min-height:18px;
 
 <!-- NAV -->
 <nav>
-<div class="title">New Tab 2</div>
-<div class="tabs" id="tabs"></div>
+  <div class="title">New Tab 2</div>
+  <div class="tabs" id="tabs"></div>
 </nav>
 
 <iframe id="viewer"></iframe>
@@ -196,23 +189,25 @@ min-height:18px;
 const tabs = document.getElementById("tabs");
 const iframe = document.getElementById("viewer");
 
-function loadGame(name,url){
-iframe.src = url;
+function loadGame(name, url) {
+  iframe.src = url;
 }
 
-function build(){
-tabs.innerHTML = "";
-Object.entries(PAGES).forEach(([name,url])=>{
-const tab = document.createElement("div");
-tab.className = "tab";
-tab.textContent = name;
-tab.onclick = () => loadGame(name,url);
-tabs.appendChild(tab);
-});
+function build() {
+  tabs.innerHTML = "";
+  Object.entries(PAGES).forEach(([name, url]) => {
+    const tab = document.createElement("div");
+    tab.className = "tab";
+    tab.textContent = name;
+    tab.onclick = () => loadGame(name, url);
+    tabs.appendChild(tab);
+  });
 }
 build();
 
-/* ================= POPUP LOGIC ================= */
+/* =========================
+   POPUP LOGIC (ONCE ONLY)
+========================= */
 
 const popup = document.getElementById("popup");
 const enableBtn = document.getElementById("enableBtn");
@@ -220,21 +215,28 @@ const skipBtn = document.getElementById("skipBtn");
 const copiedMsg = document.getElementById("copiedMsg");
 
 const FORM_LINK = "https://forms.gle/TUeMfjBxiSW6xQru9";
+const POPUP_KEY = "email_popup_seen_v1";
 
-/* COPY (ROBUST) */
+/* SHOW ONLY ON FIRST VISIT */
+if (localStorage.getItem(POPUP_KEY) === "true") {
+  popup.style.display = "none";
+} else {
+  popup.style.display = "flex";
+}
+
+/* COPY BUTTON */
 enableBtn.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(FORM_LINK);
     copiedMsg.textContent = "Copied to clipboard!";
-  } catch (e) {
-    // fallback if clipboard fails
+  } catch {
     copiedMsg.textContent = "Copy failed — use the link above.";
   }
 
   setTimeout(() => copiedMsg.textContent = "", 2500);
 });
 
-/* TIMER (FIXED RELIABLE UPDATE) */
+/* TIMER */
 let time = 20;
 
 const updateButton = () => {
@@ -254,9 +256,10 @@ const timer = setInterval(() => {
   updateButton();
 }, 1000);
 
-/* CLOSE */
+/* CLOSE + SAVE (ONLY ON SKIP) */
 skipBtn.addEventListener("click", () => {
   popup.style.display = "none";
+  localStorage.setItem(POPUP_KEY, "true");
 });
 </script>
 
