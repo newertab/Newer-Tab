@@ -2,25 +2,25 @@ window.PAGES = {
 
   "Polytrack": "https://t3m1n4l.github.io/polytrack/",
   
-  "Drive Mad": "https://newertab.github.io/drive-mad/drive-mad-new/",
+  "Drive Mad": "https://newnewtab.github.io/drive-mad/drive-mad-new/",
   
   "Snow Rider": "https://jigar1234nob.github.io/snowrider3d/",
   
   "Basket Bros": "https://hacker-114.github.io/basket-bros/",
 
-  "Moto X3M 2": "https://newertab.github.io/Moto-X3M-2/",
+  "Moto X3M 2": "https://newnewtab.github.io/Moto-X3M-2/",
   
-  "Rocket League 3D": "https://newertab.github.io/SmashKarts/",
+  "Rocket League 3D": "https://newnewtab.github.io/SmashKarts/",
 
   "Geometry Dash": "https://threekho.github.io/gdl/",
   
   "Basket Random": "https://unblocked-games-786.github.io/Basket-Random/",
   
-  "Eggy Car": "https://newertab.github.io/EggyCar/",
+  "Eggy Car": "https://newnewtab.github.io/EggyCar/",
   
-  "Retro Bowl": "https://newertab.github.io/rb/",
+  "Retro Bowl": "https://newnewtab.github.io/rb/",
 
-  "Five Nights at Epstiens": "https://newertab.github.io/FNAE-4-1-26/",
+  "Five Nights at Epstiens": "https://newnewtab.github.io/FNAE-4-1-26/",
   
-  "Slots": "https://newertab.github.io/Slot-Machine/" // Last
+  "Slots": "https://newnewtab.github.io/Slot-Machine/" // Last
 };
