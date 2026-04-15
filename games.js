@@ -12,7 +12,9 @@ window.PAGES = {
   },
   
   "Basket Bros": { 
-    "url": "https://hacker-114.github.io/basket-bros/" 
+    "url": "https://hacker-114.github.io/basket-bros/",
+    "ribbon": "Blocked", 
+    "ribbonColor": "#FF0000" 
   },
 
   "Moto X3M 2": { 
