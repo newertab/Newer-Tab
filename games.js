@@ -36,6 +36,12 @@ window.PAGES = {
   "Eggy Car": { 
     "url": "https://newnewtab.github.io/EggyCar/" 
   },
+
+   "Flappy Bird": { 
+    "url": "https://newnewtab.github.io/flappy-bird/", 
+    "ribbon": "New", 
+    "ribbonColor": "#0096FF" 
+  },
   
   "Retro Bowl": { 
     "url": "https://newnewtab.github.io/rb/" 
