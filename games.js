@@ -1,14 +1,10 @@
 window.PAGES = {
   "Polytrack": { 
-    "url": "https://t3m1n4l.github.io/polytrack/", 
-    "ribbon": "New", 
-    "ribbonColor": "#ef4444" 
+    "url": "https://t3m1n4l.github.io/polytrack/"
   },
   
   "Drive Mad": { 
-    "url": "https://newnewtab.github.io/drive-mad/drive-mad-new/", 
-    "ribbon": "Hot", 
-    "ribbonColor": "#f59e0b" 
+    "url": "https://newnewtab.github.io/drive-mad/drive-mad-new/"
   },
   
   "Snow Rider": { 
@@ -45,8 +41,8 @@ window.PAGES = {
 
   "Five Nights at Epstiens": { 
     "url": "https://newnewtab.github.io/FNAE-4-1-26/", 
-    "ribbon": "Updated", 
-    "ribbonColor": "#8b5cf6" 
+    "ribbon": "Popular", 
+    "ribbonColor": "#FFD700" 
   },
   
   "Slots": { 
