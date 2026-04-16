@@ -1,4 +1,5 @@
 window.PAGES = {
+  
   "Minecraft": { 
     "url": "https://glennfb83.github.io/ec/"
     "ribbon": "New", 
