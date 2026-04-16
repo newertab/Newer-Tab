@@ -1,4 +1,10 @@
 window.PAGES = {
+  "Minecraft": { 
+    "url": "https://glennfb83.github.io/ec/"
+    "ribbon": "New", 
+    "ribbonColor": "#0096FF"
+  },
+
   "Polytrack": { 
     "url": "https://t3m1n4l.github.io/polytrack/"
   },
