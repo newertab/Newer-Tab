@@ -21,6 +21,12 @@ window.PAGES = {
   "Moto X3M 2": { 
     "url": "https://newnewtab.github.io/Moto-X3M-2/" 
   },
+
+  "Minecraft": { 
+    "url": "https://glennfb83.github.io/ec/",
+    "ribbon": "New", 
+    "ribbonColor": "#0096FF"
+  },
   
   "Rocket League 3D": { 
     "url": "https://newnewtab.github.io/RL3D/" 
