@@ -53,7 +53,8 @@ const WHATS_NEW = [
       "Changed homepage and overall color to black and purple",
       "Ai chat now only one model but works better",
       "whats new page now timeline+mini updates",
-      "Added Cookie Clicker"
+      "Added Cookie Clicker",
+      "Added Emoji Crates"
     ]
   },
   {
