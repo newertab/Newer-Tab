@@ -137,6 +137,11 @@ window.PAGES = {
     "ribbonColor": "#00FFFF",
     "cover": "blockblast.jpeg"
   },
+  "Emoji Crates": { 
+    "url": "https://newnewnewnewtab.github.io/Cases/",
+    "ribbon": "New",
+    "ribbonColor": "#00FFFF"
+  },
   
   "Slope 2": { 
     "url": "https://newnewnewnewtab.github.io/Slope2/",
