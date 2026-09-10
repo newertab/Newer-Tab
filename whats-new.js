@@ -42,6 +42,14 @@
 // ---------------------------------------------------------------------------
 
 const WHATS_NEW = [
+   {
+    date: "Sep 10, 2026",
+    title: "Added Angry Birds",
+    type: "patch",
+    items: [
+      "Added Angry Birds"
+    ]
+  },
   {
     date: "Sep 7, 2026",
     title: "Overhaul",
