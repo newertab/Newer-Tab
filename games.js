@@ -24,10 +24,15 @@ window.PAGES = {
     "ribbon": "New",
     "ribbonColor": "#00FF00"
   },
-  
   "Cookie Clicker": { 
     "url": "https://script.google.com/macros/s/AKfycbxGM35J29NkO-2LYjxWj_cA9IUaaXypkUy-LqXyLRbGTz0R6lXmAEapz1STN1jlTIRavw/exec",
     "cover": "cookieclicker.png",
+    "ribbon": "New",
+    "ribbonColor": "#00FF00"
+  },
+"Angry Birds": { 
+    "url": "https://newnewnewnewtab.github.io/Angry-Birds/",
+    "cover": "angrybirds.png",
     "ribbon": "New",
     "ribbonColor": "#00FF00"
   },
